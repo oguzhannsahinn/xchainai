@@ -1,7 +1,15 @@
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 .crypto-container {
   max-width: 1200px;
   margin: 2rem auto;
   padding: 0 2rem;
+  overflow-x: hidden;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .crypto-list {
@@ -12,11 +20,13 @@
 }
 
 .crypto-item {
-  display: flex;
-  align-items: center;
-  padding: 1rem 1.5rem;
-  border-bottom: 1px solid #2a2a2a;
-  transition: background-color 0.3s ease;
+  display: grid;
+  grid-template-columns: 0.5fr 2fr 1.5fr 1.5fr 1fr;
+  padding: 15px;
+  border-radius: 4px;
+  background-color: rgba(26, 26, 26, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
 }
 
 .crypto-item:hover {
@@ -52,7 +62,6 @@
 }
 
 .crypto-price {
-  width: 150px;
   text-align: right;
   color: #ffffff;
   font-weight: 500;
@@ -60,7 +69,6 @@
 }
 
 .crypto-change {
-  width: 100px;
   text-align: right;
   font-weight: 500;
   font-family: 'Roboto Mono', monospace;
@@ -84,7 +92,24 @@
 @media (max-width: 768px) {
   .crypto-container {
     padding: 0 1rem;
-    margin: 1rem auto;
+    margin: 0.5rem auto;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .crypto-list {
+    min-width: auto;
+    width: 100%;
+    margin: 0 auto;
+    overflow-x: hidden;
+  }
+
+  .disclaimer {
+    margin: 0.5rem 1rem;
+  }
+
+  .info-section {
+    margin: 0.5rem 1rem 1rem 1rem;
   }
 
   .crypto-item {
@@ -246,13 +271,13 @@
 }
 
 .crypto-score {
-  margin-left: auto;
-  padding: 0.5rem 1rem;
+  text-align: right;
+  padding: 0.25rem 0.5rem;
   border-radius: 8px;
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   gap: 0.5rem;
-  min-width: 120px;
   background: rgba(26, 26, 26, 0.5);
 }
 
@@ -285,12 +310,6 @@
 
 .strong-sell .score-value {
   color: #ff4444;
-}
-
-@media (max-width: 768px) {
-  .crypto-score {
-    display: none;
-  }
 }
 
 .disclaimer {
@@ -353,4 +372,166 @@
 
 .info-icon.open {
   transform: rotate(180deg);
+}
+
+.crypto-header {
+  display: grid;
+  grid-template-columns: 0.5fr 2fr 1.5fr 1.5fr 1fr;
+  padding: 15px;
+  background-color: rgba(26, 26, 26, 0.7);
+  border-radius: 4px;
+  margin-bottom: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.header-cell {
+  color: #888;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: right;
+}
+
+.header-cell.rank {
+  text-align: left;
+}
+
+.header-cell.name {
+  text-align: left;
+}
+
+/* Mobil görünüm için medya sorgusu */
+@media screen and (max-width: 768px) {
+  .crypto-container {
+    padding: 0 0.3rem;
+    margin: 0.3rem auto;
+  }
+
+  .crypto-list {
+    min-width: auto;
+    width: 100%;
+  }
+
+  .crypto-header {
+    grid-template-columns: 0.3fr 0.8fr 1fr 0.8fr 0.6fr;
+    padding: 6px 4px;
+    gap: 2px;
+  }
+
+  .crypto-item {
+    grid-template-columns: 0.3fr 0.8fr 1fr 0.8fr 0.6fr;
+    padding: 6px 4px;
+    gap: 2px;
+    margin-bottom: 2px;
+  }
+
+  .header-cell, 
+  .crypto-price, 
+  .crypto-change,
+  .crypto-score,
+  .symbol {
+    font-size: 0.85rem;
+  }
+
+  .name {
+    display: none;
+  }
+
+  .crypto-name {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  .header-cell.name {
+    display: block;
+    text-align: left;
+  }
+
+  .crypto-score {
+    padding: 0;
+    background: none;
+    padding-right: 4px;
+  }
+
+  .score-value {
+    font-size: 0.85rem;
+  }
+
+  .crypto-rank {
+    font-size: 0.85rem;
+    min-width: auto;    
+    padding-left: 4px;
+    width: 20px;
+  }
+
+  .info-content {
+    padding: 6px;
+  }
+}
+
+/* Daha küçük ekranlar için */
+@media screen and (max-width: 480px) {
+  .crypto-container {
+    padding: 0 0.8rem;
+    width: 100%;
+  }
+
+  .disclaimer {
+    margin: 0.5rem 0.8rem;
+  }
+
+  .info-section {
+    margin: 0.5rem 0.8rem 0.8rem 0.8rem;
+  }
+
+  .crypto-header {
+    grid-template-columns: 0.3fr 0.8fr 1fr 0.8fr 0.6fr;
+    padding: 4px 2px;
+  }
+
+  .crypto-item {
+    grid-template-columns: 0.3fr 0.8fr 1fr 0.8fr 0.6fr;
+    padding: 4px 2px;
+  }
+
+  .header-cell, 
+  .crypto-price, 
+  .crypto-change,
+  .crypto-score,
+  .symbol,
+  .score-value,
+  .crypto-rank {
+    font-size: 0.8rem;
+  }
+}
+
+/* En küçük ekranlar için */
+@media screen and (max-width: 360px) {
+  .crypto-container {
+    padding: 0 0.6rem;
+    width: 100%;
+  }
+
+  .disclaimer {
+    margin: 0.5rem 0.6rem;
+  }
+
+  .info-section {
+    margin: 0.5rem 0.6rem 0.6rem 0.6rem;
+  }
+
+  .header-cell, 
+  .crypto-price, 
+  .crypto-change,
+  .crypto-score,
+  .symbol,
+  .score-value,
+  .crypto-rank {
+    font-size: 0.75rem;
+  }
+
+  .crypto-header,
+  .crypto-item {
+    padding: 3px 2px;
+  }
 }

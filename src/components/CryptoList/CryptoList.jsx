@@ -55,18 +55,19 @@ const CryptoList = () => {
         const response = await fetch('https://api.coincap.io/v2/assets');
         const data = await response.json();
         
-        // Önce market değerine göre sırala ve en yüksek 20'yi al
-        const marketCapSortedCryptos = data.data
-          .sort((a, b) => parseFloat(b.marketCapUsd) - parseFloat(a.marketCapUsd))
-          .slice(0, 20);
+        // Stabil coinleri ve TRX'i filtrele, market değerine göre sırala
+        const filteredCryptos = data.data
+          .filter(crypto => !['USDC', 'USDT', 'TRX', 'DAI'].includes(crypto.symbol))
+          .sort((a, b) => parseFloat(b.marketCapUsd) - parseFloat(a.marketCapUsd));
         
-        // Sonra analiz skorlarına göre sırala
+        // İlk 2'yi atla, sonraki 20'yi al
+        const marketCapSortedCryptos = filteredCryptos.slice(2, 22);
+        
         const analyzedCryptos = marketCapSortedCryptos.map(crypto => ({
           ...crypto,
           analysisScore: analyzeCrypto(crypto)
         }));
 
-        // Son olarak skorlara göre sırala
         const sortedCryptos = analyzedCryptos.sort((a, b) => b.analysisScore - a.analysisScore);
         
         setCryptos(sortedCryptos);
@@ -155,6 +156,13 @@ const CryptoList = () => {
       )}
       
       <div className={`crypto-list ${updating ? 'updating' : ''}`}>
+        <div className="crypto-header">
+          <div className="header-cell rank">#</div>
+          <div className="header-cell name">Coin</div>
+          <div className="header-cell price">Fiyat</div>
+          <div className="header-cell change">Değişim</div>
+          <div className="header-cell signal">Sinyal</div>
+        </div>
         {cryptos.map((crypto, index) => (
           <div 
             key={crypto.id} 
@@ -170,7 +178,6 @@ const CryptoList = () => {
               {formatChange(crypto.changePercent24Hr)}%
             </div>
             <div className="crypto-score">
-              <span className="score-label">Skor:</span>
               <span className="score-value">{crypto.analysisScore.toFixed(1)}</span>
             </div>
           </div>
