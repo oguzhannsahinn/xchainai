@@ -1,0 +1,34 @@
+.navbar {
+  padding: 1.5rem 2rem;
+  background-color: #1a1a1a;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.navbar-brand {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.navbar-brand h1 {
+  margin: 0;
+  font-size: 2.2rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.logo-text {
+  background: linear-gradient(135deg, #00ff88, #00cc6a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
+.logo-text.accent {
+  color: #ffffff;
+  -webkit-text-fill-color: #ffffff;
+  background: none;
+} 
