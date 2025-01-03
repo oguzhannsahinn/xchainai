@@ -15,33 +15,31 @@ const CryptoList = () => {
     const marketCap = parseFloat(crypto.marketCapUsd);
     const supply = parseFloat(crypto.supply);
     const maxSupply = parseFloat(crypto.maxSupply);
-    const vwap24Hr = parseFloat(crypto.vwap24Hr); // 24 saatlik ağırlıklı ortalama fiyat
+    const vwap24Hr = parseFloat(crypto.vwap24Hr);
 
     // Temel metrikler
-    const volumeToMarketCapRatio = volume / marketCap; // Yüksek oran = yüksek likidite
-    const supplyRatio = maxSupply ? supply / maxSupply : 0.5; // Dolaşımdaki coin oranı
-    const priceToVWAP = price / vwap24Hr; // 1'den büyükse fiyat ortalamanın üstünde
+    const volumeToMarketCapRatio = volume / marketCap;
+    const supplyRatio = maxSupply ? supply / maxSupply : 0.5;
+    const priceToVWAP = price / vwap24Hr;
 
+    // Her bir faktörün ağırlığını azaltalım
     let score = (
-      // Mevcut faktörler (ağırlıkları güncellendi)
-      (changePercent * 1.5) + // Değişim yüzdesi
-      (Math.log10(volume) / 3) + // Hacim logaritmik olarak
-      (price < 1 ? 3 : 0) + // Düşük fiyatlı coinler
-      (price > 10000 ? -2 : 0) + // Yüksek fiyatlı coinler
-      (marketCap > 1000000000 ? 2 : 0) + // Büyük market cap
-      (Math.abs(changePercent) > 15 ? -8 : 0) + // Aşırı değişimler
-      (marketCap < 1000000 ? -3 : 0) + // Çok düşük market cap
-
-      // Yeni faktörler
-      (volumeToMarketCapRatio * 10) + // Likidite skoru
-      (supplyRatio < 0.9 ? 2 : -1) + // Düşük arz oranı pozitif
-      (priceToVWAP > 1.1 ? -2 : priceToVWAP < 0.9 ? 2 : 0) + // VWAP'a göre fiyat pozisyonu
-      (volume > 100000000 ? 3 : 0) + // Yüksek işlem hacmi
-      (marketCap > 10000000000 ? 1 : -1) // Büyük projeler daha stabil
+      (changePercent * 0.3) +                                    // Değişim yüzdesi
+      (Math.log10(volume) * 0.2) +                              // Hacim logaritmik olarak
+      (price < 1 ? 1 : 0) +                                     // Düşük fiyatlı coinler
+      (price > 10000 ? -1 : 0) +                               // Yüksek fiyatlı coinler
+      (marketCap > 1000000000 ? 1 : 0) +                       // Büyük market cap
+      (Math.abs(changePercent) > 15 ? -2 : 0) +                // Aşırı değişimler
+      (marketCap < 1000000 ? -1 : 0) +                         // Çok düşük market cap
+      (volumeToMarketCapRatio * 2) +                           // Likidite skoru
+      (supplyRatio < 0.9 ? 1 : -0.5) +                         // Düşük arz oranı pozitif
+      (priceToVWAP > 1.1 ? -1 : priceToVWAP < 0.9 ? 1 : 0) +  // VWAP'a göre fiyat pozisyonu
+      (volume > 100000000 ? 1 : 0) +                           // Yüksek işlem hacmi
+      (marketCap > 10000000000 ? 0.5 : -0.5)                   // Büyük projeler daha stabil
     );
 
-    // Normalize etme (skoru -10 ile +10 arasına getirme)
-    score = Math.max(-10, Math.min(10, score / 2));
+    // Puanı doğrudan -10 ile +10 aralığında tutmak için
+    score = Math.max(-10, Math.min(10, score));
 
     return score;
   };
@@ -106,11 +104,12 @@ const CryptoList = () => {
   };
 
   const getRecommendationClass = (score) => {
-    if (score > 10) return 'strong-buy';
-    if (score > 5) return 'buy';
-    if (score > 0) return 'neutral';
-    if (score > -5) return 'sell';
-    return 'strong-sell';
+    if (score >= 7) return 'strong-buy';      // 7 ile 10 arası -> Koyu yeşil
+    if (score >= 3) return 'buy';             // 3 ile 7 arası -> Açık yeşil
+    if (score > -3 && score < 3) return 'neutral';  // -3 ile 3 arası -> Gri
+    if (score <= -7) return 'strong-sell';    // -10 ile -7 arası -> Kırmızı
+    if (score <= -3) return 'sell';           // -7 ile -3 arası -> Turuncu
+    return 'neutral';                         // Diğer durumlar için nötr
   };
 
   if (loading) {
@@ -129,7 +128,7 @@ const CryptoList = () => {
           <span>Nasıl Kullanılır?</span>
         </div>
         <div className={`info-content ${isInfoOpen ? 'open' : ''}`}>
-          <p><strong>📊 Analiz Paneli Nasıl Çalışır?</strong></p>
+          <p><strong>📊 xChainAI Nasıl Çalışır?</strong></p>
           
           <p><strong>Sütunlar:</strong></p>
           • <strong>Sıra (#):</strong> Analiz puanına göre sıralama<br />
@@ -139,21 +138,11 @@ const CryptoList = () => {
           • <strong>AI Sinyali:</strong> -10 ile +10 arası yapay zeka analiz puanı<br />
           <br />
           <p><strong>🎯 AI Sinyal Puanı Nasıl Yorumlanır?</strong></p>
-          • <strong>7 ile 10 arası (🟢):</strong> Güçlü alım fırsatı - Yüksek hacim, düşük volatilite, pozitif momentum<br />
-          • <strong>3 ile 7 arası (🟩):</strong> Alım fırsatı - İyi performans gösteren dengeli metrikler<br />
-          • <strong>-3 ile 3 arası (⬜️):</strong> Nötr - Bekle ve gözle pozisyonu<br />
-          • <strong>-7 ile -3 arası (🟧):</strong> Satış düşünülebilir - Zayıf performans göstergeleri<br />
-          • <strong>-10 ile -7 arası (🔴):</strong> Güçlü satış sinyali - Yüksek risk, negatif momentum<br />
-          <br />
-          <p><strong>⚡️ Sinyal Hesaplama Faktörleri:</strong></p>
-          • İşlem hacmi ve market değeri oranı<br />
-          • Fiyat değişim trendi<br />
-          • Arz-talep dengesi<br />
-          • Volatilite seviyesi<br />
-          • Piyasa likiditesi<br />
-          <br />
-          <small>* Veriler her 30 saniyede bir güncellenir.</small><br />
-          <small>* Bu analizler yatırım tavsiyesi değildir, sadece teknik göstergelere dayalı bir değerlendirmedir.</small>
+          • <strong>7 ile 10 arası (<span style={{color: '#00ff88'}}>⬤</span>):</strong> Güçlü alım fırsatı - Yüksek hacim, düşük volatilite, pozitif momentum<br />
+          • <strong>3 ile 7 arası (<span style={{color: '#249c62'}}>⬤</span>):</strong> Alım fırsatı - İyi performans gösteren dengeli metrikler<br />
+          • <strong>-3 ile 3 arası (<span style={{color: '#c4c4c4'}}>⬤</span>):</strong> Nötr - Bekle ve gözle pozisyonu<br />
+          • <strong>-7 ile -3 arası (<span style={{color: '#ff6b6b'}}>⬤</span>):</strong> Satış düşünülebilir - Zayıf performans göstergeleri<br />
+          • <strong>-10 ile -7 arası (<span style={{color: '#ff4444'}}>⬤</span>):</strong> Güçlü satış sinyali - Yüksek risk, negatif momentum<br />
         </div>
       </div>
       

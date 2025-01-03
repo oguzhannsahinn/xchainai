@@ -276,17 +276,17 @@ html, body {
 
 .crypto-item.strong-buy {
   border-left-color: #00ff88;
-  background: linear-gradient(90deg, rgba(0, 255, 136, 0.1), transparent);
+  background: linear-gradient(90deg, rgba(0, 255, 136, 0.2), transparent);
 }
 
 .crypto-item.buy {
   border-left-color: #00cc6a;
-  background: linear-gradient(90deg, rgba(0, 204, 106, 0.05), transparent);
+  background: linear-gradient(90deg, rgba(0, 204, 106, 0.075), transparent);
 }
 
 .crypto-item.neutral {
-  border-left-color: #ffb700;
-  background: linear-gradient(90deg, rgba(255, 183, 0, 0.05), transparent);
+  border-left-color: #c4c4c4;
+  background: linear-gradient(90deg, rgba(124, 124, 124, 0.374), transparent);
 }
 
 .crypto-item.sell {
@@ -330,7 +330,7 @@ html, body {
 }
 
 .neutral .score-value {
-  color: #ffb700;
+  color: #b6b6b6;
 }
 
 .sell .score-value {
@@ -347,7 +347,7 @@ html, body {
   margin-bottom: 15px;
   border-radius: 4px;
   text-align: center;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
 }
 
 .info-section {
