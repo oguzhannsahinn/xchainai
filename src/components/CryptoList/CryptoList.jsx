@@ -129,20 +129,31 @@ const CryptoList = () => {
           <span>Nasıl Kullanılır?</span>
         </div>
         <div className={`info-content ${isInfoOpen ? 'open' : ''}`}>
-          Kripto para birimlerini gerçek zamanlı olarak takip edebileceğiniz bu panelde:
-          <br /><br />
-          • Fiyat değişimlerini anlık olarak görebilir,<br />
-          • Renk kodlarıyla piyasa yönünü kolayca analiz edebilir,<br />
-          • Teknik analiz verilerine dayalı alım-satım sinyallerini inceleyebilirsiniz.<br />
+          <p><strong>📊 Analiz Paneli Nasıl Çalışır?</strong></p>
+          
+          <p><strong>Sütunlar:</strong></p>
+          • <strong>Sıra (#):</strong> Analiz puanına göre sıralama<br />
+          • <strong>Coin:</strong> Kripto para birimi adı ve sembolü<br />
+          • <strong>Güncel Fiyat:</strong> Anlık USD cinsinden değer<br />
+          • <strong>24s Değişim:</strong> Son 24 saatteki yüzdesel değişim<br />
+          • <strong>AI Sinyali:</strong> -10 ile +10 arası yapay zeka analiz puanı<br />
           <br />
-          <strong>Renk Kodları:</strong><br />
-          🟢 Koyu Yeşil: Güçlü alım fırsatı<br />
-          🟩 Açık Yeşil: Alım fırsatı<br />
-          ⬜️ Gri: Nötr bölge<br />
-          🟧 Turuncu: Satış sinyali<br />
-          🔴 Kırmızı: Güçlü satış sinyali<br />
+          <p><strong>🎯 AI Sinyal Puanı Nasıl Yorumlanır?</strong></p>
+          • <strong>7 ile 10 arası (🟢):</strong> Güçlü alım fırsatı - Yüksek hacim, düşük volatilite, pozitif momentum<br />
+          • <strong>3 ile 7 arası (🟩):</strong> Alım fırsatı - İyi performans gösteren dengeli metrikler<br />
+          • <strong>-3 ile 3 arası (⬜️):</strong> Nötr - Bekle ve gözle pozisyonu<br />
+          • <strong>-7 ile -3 arası (🟧):</strong> Satış düşünülebilir - Zayıf performans göstergeleri<br />
+          • <strong>-10 ile -7 arası (🔴):</strong> Güçlü satış sinyali - Yüksek risk, negatif momentum<br />
           <br />
-          Veriler her 30 saniyede bir otomatik olarak güncellenir.
+          <p><strong>⚡️ Sinyal Hesaplama Faktörleri:</strong></p>
+          • İşlem hacmi ve market değeri oranı<br />
+          • Fiyat değişim trendi<br />
+          • Arz-talep dengesi<br />
+          • Volatilite seviyesi<br />
+          • Piyasa likiditesi<br />
+          <br />
+          <small>* Veriler her 30 saniyede bir güncellenir.</small><br />
+          <small>* Bu analizler yatırım tavsiyesi değildir, sadece teknik göstergelere dayalı bir değerlendirmedir.</small>
         </div>
       </div>
       
@@ -157,11 +168,11 @@ const CryptoList = () => {
       
       <div className={`crypto-list ${updating ? 'updating' : ''}`}>
         <div className="crypto-header">
-          <div className="header-cell rank">#</div>
+          <div className="header-cell rank">Sıra</div>
           <div className="header-cell name">Coin</div>
-          <div className="header-cell price">Fiyat</div>
-          <div className="header-cell change">Değişim</div>
-          <div className="header-cell signal">Sinyal</div>
+          <div className="header-cell price">Güncel Fiyat</div>
+          <div className="header-cell change">24s Değişim</div>
+          <div className="header-cell signal">AI Sinyali</div>
         </div>
         {cryptos.map((crypto, index) => (
           <div 

@@ -51,7 +51,7 @@ html, body {
 }
 
 .symbol {
-  color: #00ff88;
+  color: #ebebeb;
   font-weight: 700;
   font-size: 1.1rem;
 }
@@ -83,10 +83,39 @@ html, body {
 }
 
 .loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  gap: 1rem;
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  border-top-color: #00ff88;
+  animation: spin 1s ease-in-out infinite;
+}
+
+.loading-text {
+  color: #ccc;
+  font-size: 0.9rem;
+}
+
+.error-message {
   text-align: center;
+  color: #ff4444;
   padding: 2rem;
-  color: #00ff88;
-  font-size: 1.2rem;
+  background: rgba(255, 68, 68, 0.1);
+  border-radius: 8px;
+  margin: 1rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
 @media (max-width: 768px) {
@@ -318,7 +347,7 @@ html, body {
   margin-bottom: 15px;
   border-radius: 4px;
   text-align: center;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
 }
 
 .info-section {
